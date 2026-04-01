@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MangoMart | Shop Smart</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <section id="login-page" class="auth-container">
+        <div class="auth-card">
+             <div class="logo">
+                    <span class="logo-icon">
+                        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M20 28c0-9 11-18 23-11 8 5 11 19 2 29-8 10-23 11-30 2-7-9-6-17 5-20z" fill="#F59E0B"/>
+                            <path d="M18 20c4-6 14-8 19-7" stroke="#16A34A" stroke-width="4" stroke-linecap="round" fill="none"/>
+                            <path d="M28 22l6-8" stroke="#16A34A" stroke-width="4" stroke-linecap="round" fill="none"/>
+                            <path d="M39 13l8-4" stroke="#16A34A" stroke-width="4" stroke-linecap="round" fill="none"/>
+                            <circle cx="34" cy="24" r="3" fill="#FFFFFF"/>
+                            <path d="M36 24h8M34 26v8M40 22v16" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M42 30h7" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </span>
+                    MangoMart
+                </div>
+            
+            <p id="auth-description">Please sign in to start shopping</p>
+            <form id="auth-form">
+                <input type="text" id="username" placeholder="Username" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <input type="password" id="confirm-password" class="hidden" placeholder="Confirm Password">
+                <button type="submit" class="btn-primary" id="auth-submit">Sign In</button>
+            </form>
+            <p class="auth-toggle-text">New here? <button type="button" class="btn-link" id="toggle-auth-mode">Create an account</button></p>
+        </div>
+    </section>
+
+    <section id="store-page" class="hidden">
+        <nav class="navbar">
+            <div class="nav-left">
+                <div class="logo">
+                    <span class="logo-icon">
+                        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M20 28c0-9 11-18 23-11 8 5 11 19 2 29-8 10-23 11-30 2-7-9-6-17 5-20z" fill="#F59E0B"/>
+                            <path d="M18 20c4-6 14-8 19-7" stroke="#16A34A" stroke-width="4" stroke-linecap="round" fill="none"/>
+                            <path d="M28 22l6-8" stroke="#16A34A" stroke-width="4" stroke-linecap="round" fill="none"/>
+                            <path d="M39 13l8-4" stroke="#16A34A" stroke-width="4" stroke-linecap="round" fill="none"/>
+                            <circle cx="34" cy="24" r="3" fill="#FFFFFF"/>
+                            <path d="M36 24h8M34 26v8M40 22v16" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M42 30h7" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </span>
+                    MangoMart
+                </div>
+                <div class="nav-links">
+                    <a class="nav-btn" href="#store-page"><i class="fas fa-home"></i> Home</a>
+                    <button class="nav-btn" onclick="toggleCart()"><i class="fas fa-shopping-cart"></i> Cart <span id="cart-count">0</span></button>
+                    <div class="wallet-container">
+                        <button class="nav-btn nav-wallet" onclick="toggleWalletMenu()"><i class="fas fa-wallet"></i> Wallet <span id="account-balance">$0.00</span></button>
+                        <div class="wallet-menu hidden" id="wallet-menu">
+                            <button class="wallet-action" onclick="displayWalletBalance()">View Balance</button>
+                            <div class="wallet-deposit">
+                                <input id="deposit-amount" type="number" min="1" placeholder="Deposit" />
+                                <button class="wallet-action btn-primary" onclick="depositFunds()">Deposit</button>
+                            </div>
+                            <div id="wallet-message" class="wallet-message"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-center">
+                <div class="search-group">
+                    <input id="search-input" class="search-input" type="search" placeholder="Search featured items or Google..." oninput="searchProducts(event)">
+                    <button class="btn-primary search-btn" onclick="searchGoogleQuery()">Search</button>
+                </div>
+            </div>
+            <div class="nav-tools">
+                <span id="user-greeting"></span>
+                <button onclick="logout()" class="btn-outline">Logout</button>
+            </div>
+        </nav>
+
+        <header class="store-header">
+            <h2>Featured Products</h2>
+            <p class="section-subtitle">Browse the latest items available for purchase in our MangoMart store.</p>
+        </header>
+
+        <main id="product-grid" class="product-grid"></main>
+    </section>
+
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <span class="close-cart" onclick="toggleCart()">&times;</span>
+        </div>
+        <div id="cart-items"></div>
+        <div class="cart-footer">
+            <h4>Total: $<span id="cart-total">0.00</span></h4>
+            <button class="btn-primary" onclick="checkout()">Checkout Now</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+    <footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-section">
+            <h2 class="footer-logo">MangoMart</h2>
+            <p>Your one-stop shop for fresh groceries and daily essentials. Quality guaranteed.</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+
+        <div class="footer-section">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">All Products</a></li>
+                <li><a href="#offers">Special Offers</a></li>
+                <li><a href="#login">My Account</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h3>Customer Support</h3>
+            <ul>
+                <li><a href="#">Help Center</a></li>
+                <li><a href="#">Track Order</a></li>
+                <li><a href="#">Return Policy</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h3>Contact Us</h3>
+            <p><i class="fas fa-map-marker-alt"></i> 123 Accra St, City Center</p>
+            <p><i class="fas fa-phone"></i> +233 244 733 934</p>
+            <p><i class="fas fa-envelope"></i> support@mangomart.com</p>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2026 MangoMart. All Rights Reserved. | Designed for Exam Project</p>
+    </div>
+</footer>
+</body>
+</html>
